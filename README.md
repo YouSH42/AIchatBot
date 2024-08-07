@@ -10,3 +10,14 @@
 ```bash
 pip install streamlit torch langchain langchain_core langchain_huggingface langchain_community unstructured faiss-cpu numpy pandas requests lxml python-docx
 ```
+- 아래의 명령어로 작동이 가능합니다.
+```bash
+streamlit run main.py
+```
+
+### 한글(HWP) 문서도 로드할 수 있도록 TeddyNote님이 만들어주셨길래
+- 아무래도 한글을 한국에서는 많이 쓰니까 요것도 적용해보려고 합니다.
+- 참고문서는 TeddyNote님의 위키독스를 참고했습니다.
+
+### pdf로더가 한글 파일을 제대로 인식하지 못하는 것 같아 몇가지 테스드도 진행하였습니다.
+- DocumentLoader 폴더에서 한글(HWP)로더를 사용한 것과 PDF로더를 사용하여 임베딩한다음 결과값을 출력하였을 때 내용 구성에 있어서 상이한 점을 발견하였습니다.
