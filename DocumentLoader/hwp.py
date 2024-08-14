@@ -1,20 +1,21 @@
+import time
 from langchain_teddynote.document_loaders import HWPLoader
 from langchain_text_splitters import RecursiveCharacterTextSplitter
 from langchain_huggingface import HuggingFaceEmbeddings
 from langchain_community.vectorstores.faiss import FAISS
 
-#HWP Loader 객체 생성
+# HWP Loader 객체 생성
 loader = HWPLoader("../Document/학생연구자지원규정.hwp")
 
-#문서 로드
+# 문서 로드
 docs = loader.load()
 # print(docs[0].page_content)
 
-#문서를 로드해서 token화하는 작업
+# 문서를 로드해서 token화하는 작업
 tik_text_splitter = RecursiveCharacterTextSplitter.from_tiktoken_encoder(
-encoding_name="cl100k_base",
-chunk_size=250,
-chunk_overlap=25
+    encoding_name="cl100k_base",
+    chunk_size=250,
+    chunk_overlap=25
 )
 docs = loader.load_and_split(text_splitter=tik_text_splitter)
 
@@ -36,7 +37,15 @@ vectorstore = FAISS.from_documents(docs, embedding=embeddings)
 retriever = vectorstore.as_retriever()
 
 query = "산학협력단의 의무"
+
+# 검색 시간 측정 시작
+start_time = time.time()
 answer = retriever.invoke(query)
+end_time = time.time()
+
+search_time = end_time - start_time
 
 for i, doc in enumerate(answer, 1):
-    print(i,"=", doc.page_content)
+    print(i, "=", doc.page_content)
+
+print(f"검색 시간: {search_time} 초")
